@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                     bitmap = ExifUtils.rotateBitmap(photo.getAbsolutePath(), bitmap);
 
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
                     Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
 
                     bitmap.recycle();

@@ -185,7 +185,7 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
                             .getBitmap(getContentResolver(), Uri.fromFile(photo));
                     bitmap = ExifUtils.rotateBitmap(photo.getAbsolutePath(), bitmap);
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
                     Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
                     decoded = PhotoUtils.getResizedBitmap(decoded, decoded.getWidth());
                     resultImage = decoded;
