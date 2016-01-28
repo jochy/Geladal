@@ -35,15 +35,15 @@ public class BinaryFilter extends AbstractFilter {
 
     @Override
     public String getName() {
-        return "Inverted Filter";
+        return "Binary Filter";
     }
 
     private ColorMatrix getColorMatrix(float x, float y, float z) {
         ColorMatrix colorMatrix = new ColorMatrix();
         colorMatrix.setSaturation(0);
 
-        float m = (float) (255f * ((x+y+z)/3+0.7));
-        float t = (float) (-255*128f * ((x+y+z)+0.7));
+        float m = (float) (255f *     ((x+y)/2+0.5));
+        float t = (float) (-255*128f * ((y+z)/2+0.5));
         ColorMatrix threshold = new ColorMatrix(new float[] {
                 m, 0, 0, 1, t,
                 0, m, 0, 1, t,
