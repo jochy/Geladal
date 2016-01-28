@@ -18,7 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
-import m2dl.geladal.geladal.utils.ExifUtils;
+import m2dl.geladal.geladal.utilstmp.ExifUtils;
 import m2dl.geladal.geladal.services.MessageService;
 import m2dl.geladal.geladal.services.PhotoUtils;
 

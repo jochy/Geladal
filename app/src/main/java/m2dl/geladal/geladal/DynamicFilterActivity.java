@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Random;
 
 import m2dl.geladal.geladal.filters.impl.MozFilter;
-import m2dl.geladal.geladal.utils.ExifUtils;
+import m2dl.geladal.geladal.utilstmp.ExifUtils;
 import m2dl.geladal.geladal.filters.IFilter;
 import m2dl.geladal.geladal.filters.IFilterConsumer;
 import m2dl.geladal.geladal.filters.impl.BlackAndWhiteFilter;
