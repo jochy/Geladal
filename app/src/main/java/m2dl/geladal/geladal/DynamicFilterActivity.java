@@ -26,21 +26,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import m2dl.geladal.geladal.filters.impl.MozFilter;
-import m2dl.geladal.geladal.utils.ExifUtils;
 import m2dl.geladal.geladal.filters.IFilter;
 import m2dl.geladal.geladal.filters.IFilterConsumer;
 import m2dl.geladal.geladal.filters.impl.BlackAndWhiteFilter;
 import m2dl.geladal.geladal.filters.impl.BlurFilter;
-import m2dl.geladal.geladal.filters.impl.GridFilter;
 import m2dl.geladal.geladal.filters.impl.ColorFilter;
+import m2dl.geladal.geladal.filters.impl.GridFilter;
 import m2dl.geladal.geladal.filters.impl.LightFilter;
+import m2dl.geladal.geladal.filters.impl.MozFilter;
 import m2dl.geladal.geladal.handlers.IMovementDetected;
 import m2dl.geladal.geladal.handlers.IShakeDetected;
 import m2dl.geladal.geladal.handlers.MovementDetectionListener;
 import m2dl.geladal.geladal.handlers.ShakeDetectionListener;
 import m2dl.geladal.geladal.services.MessageService;
 import m2dl.geladal.geladal.services.PhotoUtils;
+import m2dl.geladal.geladal.utils.ExifUtils;
 
 public class DynamicFilterActivity extends AppCompatActivity implements IShakeDetected, IMovementDetected, IFilterConsumer, View.OnTouchListener {
 
@@ -182,12 +182,15 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
         switch (requestCode) {
             case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE:
                 try {
+                    reset();
+                    System.gc();
                     Bitmap bitmap = MediaStore.Images.Media
                             .getBitmap(getContentResolver(), Uri.fromFile(photo));
                     bitmap = ExifUtils.rotateBitmap(photo.getAbsolutePath(), bitmap);
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
                     Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
+                    bitmap.recycle();
                     decoded = PhotoUtils.getResizedBitmap(decoded, decoded.getWidth());
                     MessageService.image = decoded;
                     imageView.setImageBitmap(decoded);
@@ -207,11 +210,12 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
         return false;
     }
 
-    @Override
-    public void finish() {
+    private void reset(){
         for (IFilter f : filters) {
             f.killThread();
         }
-        super.finish();
+        imageView.setImageBitmap(null);
+        resultImage.recycle();
+        resultImage = null;
     }
 }
