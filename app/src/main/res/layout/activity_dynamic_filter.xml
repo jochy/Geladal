@@ -22,10 +22,13 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/imgFilter"
                 android:src="@drawable/filtre1"/>
+
             <TextView
                 android:id="@+id/tvFilter"
+                android:textSize="25dp"
+                android:gravity="center"
                 android:layout_marginTop="25dp"
-                android:text="text"
+                android:text="Text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
@@ -42,9 +45,11 @@
             android:layout_height="match_parent" />
 
         <Button
+            android:layout_marginLeft="10dp"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:background="@drawable/takepicturesmall"
+            android:onClick="changePicture"
             android:layout_gravity="bottom"/>
 
     </FrameLayout>

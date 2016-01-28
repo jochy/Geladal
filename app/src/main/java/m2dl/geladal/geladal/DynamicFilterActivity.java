@@ -1,28 +1,42 @@
 package m2dl.geladal.geladal;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import m2dl.geladal.geladal.Utils.ExifUtils;
 import m2dl.geladal.geladal.filters.IFilter;
 import m2dl.geladal.geladal.filters.IFilterConsumer;
 import m2dl.geladal.geladal.filters.impl.BlackAndWhiteFilter;
 import m2dl.geladal.geladal.filters.impl.BlurFilter;
+import m2dl.geladal.geladal.filters.impl.ColorFilter;
 import m2dl.geladal.geladal.handlers.IMovementDetected;
 import m2dl.geladal.geladal.handlers.IShakeDetected;
 import m2dl.geladal.geladal.handlers.MovementDetectionListener;
 import m2dl.geladal.geladal.handlers.ShakeDetectionListener;
 import m2dl.geladal.geladal.services.MessageService;
+import m2dl.geladal.geladal.services.PhotoUtils;
 
 public class DynamicFilterActivity extends AppCompatActivity implements IShakeDetected, IMovementDetected, IFilterConsumer {
 
@@ -31,9 +45,12 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
     private MovementDetectionListener movementDetectionListener;
     private List<IFilter> filters = new ArrayList<>();
     private int currentFilterPos = 0;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
     Bitmap resultImage;
     ImageView imageView;
+    File photo ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +75,7 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
         // Register filter
         filters.add(new BlackAndWhiteFilter());
         filters.add(new BlurFilter());
+        filters.add(new ColorFilter());
         moved(0, 0, 0);
     }
 
@@ -115,4 +133,43 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
     public Context getContext() {
         return this.getBaseContext();
     }
+
+
+    public void changePicture(View view)
+    {
+        // Création de l'intent de type ACTION_IMAGE_CAPTURE
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Random r = new Random();
+        int low = 10;
+        int high = 100000;
+        int result = r.nextInt(high-low)+low;
+        photo = new File(Environment.getExternalStorageDirectory(), "Pic"+result+".jpg");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE:
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media
+                            .getBitmap(getContentResolver(), Uri.fromFile(photo));
+                    bitmap = ExifUtils.rotateBitmap(photo.getAbsolutePath(), bitmap);
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
+                    Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
+                    decoded = PhotoUtils.getResizedBitmap(decoded, decoded.getWidth());
+                    MessageService.image = decoded;
+                    imageView.setImageBitmap(decoded);
+                    imageView.invalidate();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
+
+
 }
