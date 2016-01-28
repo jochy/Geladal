@@ -4,11 +4,9 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.widget.Toast;
 
 import m2dl.geladal.geladal.R;
 import m2dl.geladal.geladal.filters.AbstractFilter;
-import m2dl.geladal.geladal.filters.IFilter;
 import m2dl.geladal.geladal.filters.IFilterConsumer;
 
 /**
@@ -55,11 +53,11 @@ public class GridFilter extends AbstractFilter {
 
     @Override
     public int getIcon() {
-        return R.drawable.filtre4;
+        return R.drawable.grid;
     }
 
     @Override
     public String getName() {
-        return "Grille";
+        return "Grid Filter";
     }
 }

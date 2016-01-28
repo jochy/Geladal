@@ -8,7 +8,6 @@ import android.renderscript.ScriptIntrinsicConvolve3x3;
 
 import m2dl.geladal.geladal.R;
 import m2dl.geladal.geladal.filters.AbstractFilter;
-import m2dl.geladal.geladal.filters.IFilter;
 import m2dl.geladal.geladal.filters.IFilterConsumer;
 
 /**
@@ -42,12 +41,12 @@ public class LightFilter extends AbstractFilter {
 
     @Override
     public int getIcon() {
-        return R.drawable.filtre3;
+        return R.drawable.light;
     }
 
     @Override
     public String getName() {
-        return "Light";
+        return "Light Filter";
     }
 
 

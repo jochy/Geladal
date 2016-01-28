@@ -3,9 +3,9 @@ package m2dl.geladal.geladal.filters.impl;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+
 import m2dl.geladal.geladal.R;
 import m2dl.geladal.geladal.filters.AbstractFilter;
-import m2dl.geladal.geladal.filters.IFilter;
 import m2dl.geladal.geladal.filters.IFilterConsumer;
 
 /**
@@ -47,11 +47,11 @@ public class MozFilter extends AbstractFilter {
 
     @Override
     public int getIcon() {
-        return R.drawable.filtre2;
+        return R.drawable.mosaic;
     }
 
     @Override
     public String getName() {
-        return "Mosaïque";
+        return "Mosaic Filter";
     }
 }

@@ -7,11 +7,8 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 
-import java.util.Random;
-
 import m2dl.geladal.geladal.R;
 import m2dl.geladal.geladal.filters.AbstractFilter;
-import m2dl.geladal.geladal.filters.IFilter;
 import m2dl.geladal.geladal.filters.IFilterConsumer;
 
 /**
@@ -40,7 +37,7 @@ public class ColorFilter extends AbstractFilter {
 
     @Override
     public int getIcon() {
-        return R.drawable.filtre4;
+        return R.drawable.color;
     }
 
     @Override

@@ -5,9 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
+
 import m2dl.geladal.geladal.R;
 import m2dl.geladal.geladal.filters.AbstractFilter;
-import m2dl.geladal.geladal.filters.IFilter;
 import m2dl.geladal.geladal.filters.IFilterConsumer;
 
 /**
@@ -34,11 +34,11 @@ public class BlackAndWhiteFilter extends AbstractFilter {
 
     @Override
     public int getIcon() {
-        return R.drawable.filtre1;
+        return R.drawable.blackandwhite;
     }
 
     @Override
     public String getName() {
-        return "Back and white";
+        return "Back and white Filter";
     }
 }

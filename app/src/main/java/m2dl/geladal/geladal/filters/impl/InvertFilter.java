@@ -29,12 +29,12 @@ public class InvertFilter extends AbstractFilter {
 
     @Override
     public int getIcon() {
-        return R.drawable.filtre1;
+        return R.drawable.inverted;
     }
 
     @Override
     public String getName() {
-        return "Invert";
+        return "Inverted Filter";
     }
 
     private ColorMatrix getColorMatrix(float x, float y, float z) {
