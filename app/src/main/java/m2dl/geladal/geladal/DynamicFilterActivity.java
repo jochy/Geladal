@@ -28,6 +28,7 @@ import java.util.Random;
 
 import m2dl.geladal.geladal.filters.IFilter;
 import m2dl.geladal.geladal.filters.IFilterConsumer;
+import m2dl.geladal.geladal.filters.impl.BinaryFilter;
 import m2dl.geladal.geladal.filters.impl.BlackAndWhiteFilter;
 import m2dl.geladal.geladal.filters.impl.ColorFilter;
 import m2dl.geladal.geladal.filters.impl.GridFilter;
@@ -81,6 +82,7 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
         filters.add(new MozFilter());
         filters.add(new LightFilter());
         filters.add(new InvertFilter());
+        filters.add(new BinaryFilter());
         //moved(0, 0, 0);
     }
 
