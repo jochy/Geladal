@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
 
         // Register filter
         filters.add(new BlackAndWhiteFilter());
+        moved(0, 0, 0);
     }
 
     @Override
@@ -92,6 +94,8 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
     public void moved(float x, float y, float z) {
         if (filters.size() > 0) {
             filters.get(currentFilterPos).filter(this, resultImage, x, y, z);
+            ((ImageView) findViewById(R.id.imgFilter)).setImageResource(filters.get(currentFilterPos).getIcon());
+            ((TextView) findViewById(R.id.tvFilter)).setText(filters.get(currentFilterPos).getName());
         }
     }
 

@@ -7,6 +7,7 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.widget.Toast;
 
+import m2dl.geladal.geladal.R;
 import m2dl.geladal.geladal.filters.IFilter;
 import m2dl.geladal.geladal.filters.IFilterConsumer;
 
@@ -21,19 +22,19 @@ public class BlackAndWhiteFilter implements IFilter {
         Paint paint = new Paint(Paint.DITHER_FLAG);
         ColorMatrix cm = new ColorMatrix();
 
-        float coef = Math.abs(x) + Math.abs(y) + Math.abs(z) * 2;
-
-        cm.setSaturation(coef);
+        cm.setSaturation(Math.abs(x) + Math.abs(y) + Math.abs(z) * 2);
 
         paint.setColorFilter(new ColorMatrixColorFilter(cm));
         canvas.drawBitmap(original, 0, 0, paint);
+
+        Toast.makeText(activity.getContext(), x + " " + y + " " + z, Toast.LENGTH_SHORT).show();
 
         activity.setImageFiltered(result);
     }
 
     @Override
-    public Bitmap getIcon() {
-        return null;
+    public int getIcon() {
+        return R.drawable.filtre1;
     }
 
     @Override
