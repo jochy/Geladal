@@ -56,8 +56,6 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
 
         // Register filter
         filters.add(new BlackAndWhiteFilter());
-
-        filters.get(currentFilterPos).filter(this, resultImage, 0, 0, 0);
     }
 
     @Override
