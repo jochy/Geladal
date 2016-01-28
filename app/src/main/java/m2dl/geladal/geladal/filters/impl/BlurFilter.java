@@ -26,8 +26,8 @@ public class BlurFilter implements IFilter {
         ScriptIntrinsicBlur blur = ScriptIntrinsicBlur.create(
                 rs, Element.U8_4(rs));
         blur.setInput(allocIn);
-        float res = Math.abs(x)+Math.abs(y)+Math.abs(z);
-        blur.setRadius(Math.max(res*2,15));
+        float res = Math.abs(x) + Math.abs(y) + Math.abs(z);
+        blur.setRadius(Math.max(res * 2 - 1, 15));
         blur.forEach(allocOut);
         allocOut.copyTo(bitmap);
         rs.destroy();
