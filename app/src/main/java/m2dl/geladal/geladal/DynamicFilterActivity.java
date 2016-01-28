@@ -76,11 +76,11 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
                 .getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR), SensorManager.SENSOR_DELAY_NORMAL);
 
         // Register filter
-        filters.add(new BlackAndWhiteFilter());
-        filters.add(new GridFilter());
         filters.add(new ColorFilter());
-        filters.add(new MozFilter());
+        filters.add(new GridFilter());
         filters.add(new LightFilter());
+        filters.add(new MozFilter());
+        filters.add(new BlackAndWhiteFilter());
         filters.add(new InvertFilter());
         filters.add(new BinaryFilter());
         //moved(0, 0, 0);

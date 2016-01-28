@@ -23,8 +23,8 @@ public class MozFilter extends AbstractFilter {
         y = Math.abs(y);
         z = Math.abs(z);
 
-        int nbCol = (int) (7 * x * z * 90);
-        int nbRow = (int) (7 * y * z * 90);
+        int nbCol = (int) (x * z * 90);
+        int nbRow = (int) (y * z * 90);
 
         nbCol = Math.max(Math.min(20, nbCol), 1);
         nbRow = Math.max(Math.min(20, nbRow), 1);

@@ -10,7 +10,7 @@ import android.hardware.SensorEventListener;
 public class ShakeDetectionListener implements SensorEventListener {
 
     private static final float SHAKE_THRESHOLD = 900;
-    private static final float INTERVAL_UPDATE = 90;
+    private static final float INTERVAL_UPDATE = 100;
 
     private IShakeDetected activity;
 
