@@ -1,5 +1,6 @@
 package m2dl.geladal.geladal.filters;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 /**
@@ -7,4 +8,6 @@ import android.graphics.Bitmap;
  */
 public interface IFilterConsumer {
     public void setImageFiltered(Bitmap bitmap);
+
+    public Context getContext();
 }

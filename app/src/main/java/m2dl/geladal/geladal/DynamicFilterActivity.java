@@ -1,5 +1,6 @@
 package m2dl.geladal.geladal;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -105,5 +106,10 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
                 imageView.invalidate();
             }
         });
+    }
+
+    @Override
+    public Context getContext() {
+        return this.getBaseContext();
     }
 }
