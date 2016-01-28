@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import m2dl.geladal.geladal.Utils.ExifUtils;
 import m2dl.geladal.geladal.services.MessageService;
+import m2dl.geladal.geladal.services.PhotoUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -66,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
 
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
                     Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
 
-                    decoded = getResizedBitmap(decoded,decoded.getWidth());
+                    decoded = PhotoUtils.getResizedBitmap(decoded,decoded.getWidth());
                     Toast.makeText(getApplicationContext(),"Decoded height :" + decoded.getHeight() +" width:"+decoded.getWidth(),Toast.LENGTH_LONG).show();
 
                     Intent intent = new Intent(this, DynamicFilterActivity.class);
@@ -97,20 +97,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
-        int width = image.getWidth();
-        int height = image.getHeight();
 
-        float bitmapRatio = (float) width / (float) height;
-        if (bitmapRatio > 1) {
-            width = maxSize;
-            height = (int) (width / bitmapRatio);
-        } else {
-            height = maxSize;
-            width = (int) (height * bitmapRatio);
-        }
-        return Bitmap.createScaledBitmap(image, width, height, true);
-    }
 
 
 

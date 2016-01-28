@@ -22,12 +22,13 @@ public class BlackAndWhiteFilter implements IFilter {
         Paint paint = new Paint(Paint.DITHER_FLAG);
         ColorMatrix cm = new ColorMatrix();
 
-        cm.setSaturation(Math.abs(x) + Math.abs(y) + Math.abs(z) * 2);
+        float coef = Math.abs(x) + Math.abs(y) + Math.abs(z) * 5 - 1;
+        cm.setSaturation(coef);
 
         paint.setColorFilter(new ColorMatrixColorFilter(cm));
         canvas.drawBitmap(original, 0, 0, paint);
 
-        Toast.makeText(activity.getContext(), x + " " + y + " " + z, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(activity.getContext(), x + " " + y + " " + z + " " + coef, Toast.LENGTH_SHORT).show();
 
         activity.setImageFiltered(result);
     }
