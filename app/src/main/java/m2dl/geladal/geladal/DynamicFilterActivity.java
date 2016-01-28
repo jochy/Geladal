@@ -31,6 +31,7 @@ import m2dl.geladal.geladal.filters.IFilterConsumer;
 import m2dl.geladal.geladal.filters.impl.BlackAndWhiteFilter;
 import m2dl.geladal.geladal.filters.impl.ColorFilter;
 import m2dl.geladal.geladal.filters.impl.GridFilter;
+import m2dl.geladal.geladal.filters.impl.InvertFilter;
 import m2dl.geladal.geladal.filters.impl.LightFilter;
 import m2dl.geladal.geladal.filters.impl.MozFilter;
 import m2dl.geladal.geladal.handlers.IMovementDetected;

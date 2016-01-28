@@ -13,12 +13,13 @@
             android:id="@+id/filterList"
             android:layout_width="match_parent"
             android:orientation="horizontal"
-            android:background="#FFFFFF"
             android:layout_height="wrap_content">
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:id="@+id/imgFilter"
                 android:src="@drawable/filtre1"/>
 
@@ -28,6 +29,8 @@
                 android:gravity="center_horizontal"
                 android:layout_marginTop="25dp"
                 android:text="Text"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -41,7 +44,8 @@
         <ImageView
             android:id="@+id/basicImage"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="#000000"/>
 
         <Button
             android:layout_marginLeft="10dp"
