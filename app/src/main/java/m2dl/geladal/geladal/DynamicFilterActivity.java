@@ -25,13 +25,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import m2dl.geladal.geladal.Utils.ExifUtils;
+import m2dl.geladal.geladal.filters.impl.MozFilter;
+import m2dl.geladal.geladal.utils.ExifUtils;
 import m2dl.geladal.geladal.filters.IFilter;
 import m2dl.geladal.geladal.filters.IFilterConsumer;
 import m2dl.geladal.geladal.filters.impl.BlackAndWhiteFilter;
 import m2dl.geladal.geladal.filters.impl.BlurFilter;
+import m2dl.geladal.geladal.filters.impl.GridFilter;
 import m2dl.geladal.geladal.filters.impl.ColorFilter;
-import m2dl.geladal.geladal.filters.impl.DisplacementMapFilter;
 import m2dl.geladal.geladal.filters.impl.LightFilter;
 import m2dl.geladal.geladal.handlers.IMovementDetected;
 import m2dl.geladal.geladal.handlers.IShakeDetected;
@@ -77,9 +78,10 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
         // Register filter
         filters.add(new BlackAndWhiteFilter());
         filters.add(new BlurFilter());
+        filters.add(new GridFilter());
         filters.add(new ColorFilter());
+        filters.add(new MozFilter());
         filters.add(new LightFilter());
-        filters.add(new DisplacementMapFilter());
         moved(0, 0, 0);
     }
 

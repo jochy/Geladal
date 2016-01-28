@@ -49,7 +49,7 @@ public class ShakeDetectionListener implements SensorEventListener {
             if (speed > SHAKE_THRESHOLD) {
                 synchronized (lock){
                     curTime = System.currentTimeMillis();
-                    if(curTime - lastShake > 1000){
+                    if(curTime - lastShake > 700){
                         lastShake = curTime;
                     }
                 }
