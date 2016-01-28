@@ -1,22 +1,27 @@
 package m2dl.geladal.geladal;
 
+import android.graphics.Bitmap;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import m2dl.geladal.geladal.handlers.IShakeDetected;
 import m2dl.geladal.geladal.handlers.ShakeDetectionListener;
+import m2dl.geladal.geladal.services.MessageService;
 
 public class DynamicFilterActivity extends AppCompatActivity implements IShakeDetected {
+
+    Bitmap resultImage ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dynamic_filter);
+        resultImage = MessageService.image;
 
         SensorManager sensorMgr = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensorMgr.registerListener(new ShakeDetectionListener(this), sensorMgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);

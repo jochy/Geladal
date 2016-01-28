@@ -1,20 +1,34 @@
 package m2dl.geladal.geladal;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import java.io.File;
+import java.io.IOException;
+
+import m2dl.geladal.geladal.Utils.ExifUtils;
+import m2dl.geladal.geladal.services.MessageService;
 
 public class MainActivity extends AppCompatActivity {
+
+    File photo ;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(this, DynamicFilterActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, DynamicFilterActivity.class);
+        //startActivity(intent);
     }
 
     @Override
@@ -38,4 +52,39 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    public void takePicture(View view)
+    {
+        // Création de l'intent de type ACTION_IMAGE_CAPTURE
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        photo = new File(Environment.getExternalStorageDirectory(), "Pic.jpg");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE:
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media
+                            .getBitmap(getContentResolver(), Uri.fromFile(photo));
+                    // Rotate it
+                    bitmap = ExifUtils.rotateBitmap(photo.getAbsolutePath(), bitmap);
+                    Intent intent = new Intent(this, DynamicFilterActivity.class);
+                    MessageService.image = bitmap;
+                    startActivity(intent);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
+
+
+
+
 }
