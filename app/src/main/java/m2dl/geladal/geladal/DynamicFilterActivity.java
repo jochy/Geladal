@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,7 +42,7 @@ import m2dl.geladal.geladal.handlers.ShakeDetectionListener;
 import m2dl.geladal.geladal.services.MessageService;
 import m2dl.geladal.geladal.services.PhotoUtils;
 
-public class DynamicFilterActivity extends AppCompatActivity implements IShakeDetected, IMovementDetected, IFilterConsumer {
+public class DynamicFilterActivity extends AppCompatActivity implements IShakeDetected, IMovementDetected, IFilterConsumer, View.OnTouchListener {
 
     private int shakes = 0;
     private ShakeDetectionListener shakeDetectionListener;
@@ -63,6 +64,7 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
 
         imageView = (ImageView) findViewById(R.id.basicImage);
         imageView.setImageBitmap(resultImage);
+        imageView.setOnTouchListener(this);
 
         // Shake detection
         shakeDetectionListener = new ShakeDetectionListener(this);
@@ -73,7 +75,7 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
         // Gyroscope detection
         movementDetectionListener = new MovementDetectionListener(this);
         sensorMgr.registerListener(movementDetectionListener, sensorMgr
-                .getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR), SensorManager.SENSOR_DELAY_NORMAL);
+                .getDefaultSensor(Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR), SensorManager.SENSOR_DELAY_NORMAL);
 
         // Register filter
         filters.add(new BlackAndWhiteFilter());
@@ -178,4 +180,9 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
     }
 
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+
+        return false;
+    }
 }

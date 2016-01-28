@@ -22,6 +22,19 @@ public abstract class AbstractFilter implements IFilter {
         }
     }
 
+    @Override
+    public void filterOnTouch(IFilterConsumer activity, Bitmap original, float x, float y) {
+        if (thread == null || !thread.isAlive()) {
+            thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //filterImpl(activity, original, x, y);
+                }
+            });
+            thread.start();
+        }
+    }
+
     public abstract void filterImpl(IFilterConsumer activity, Bitmap original, float x, float y, float z);
 
     @Override

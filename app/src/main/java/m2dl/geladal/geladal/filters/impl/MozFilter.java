@@ -26,8 +26,8 @@ public class MozFilter extends AbstractFilter {
         int nbCol = (int) (8 * x * z * 100);
         int nbRow = (int) (8 * y * z * 100);
 
-        nbCol = Math.max(Math.min(30, nbCol), 1);
-        nbRow = Math.max(Math.min(30, nbRow), 1);
+        nbCol = Math.max(Math.min(25, nbCol), 1);
+        nbRow = Math.max(Math.min(25, nbRow), 1);
 
         int sizeC = original.getWidth() / nbCol;
         int sizeR = original.getHeight() / nbRow;

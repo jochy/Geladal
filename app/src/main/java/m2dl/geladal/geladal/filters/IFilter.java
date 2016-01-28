@@ -8,6 +8,8 @@ import android.graphics.Bitmap;
 public interface IFilter {
     void filter(IFilterConsumer activity, Bitmap original, float x, float y, float z);
 
+    void filterOnTouch(IFilterConsumer activity, Bitmap original, float x, float y);
+
     int getIcon();
 
     String getName();
