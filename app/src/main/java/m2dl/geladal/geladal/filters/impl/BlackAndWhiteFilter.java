@@ -5,18 +5,17 @@ import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
-import android.widget.Toast;
-
 import m2dl.geladal.geladal.R;
+import m2dl.geladal.geladal.filters.AbstractFilter;
 import m2dl.geladal.geladal.filters.IFilter;
 import m2dl.geladal.geladal.filters.IFilterConsumer;
 
 /**
  * Created by Alexandre on 28/01/2016.
  */
-public class BlackAndWhiteFilter implements IFilter {
+public class BlackAndWhiteFilter extends AbstractFilter {
     @Override
-    public void filter(IFilterConsumer activity, Bitmap original, float x, float y, float z) {
+    public void filterImpl(IFilterConsumer activity, Bitmap original, float x, float y, float z) {
         Bitmap result = original.copy(original.getConfig(), true);
         Canvas canvas = new Canvas(result);
         Paint paint = new Paint(Paint.DITHER_FLAG);

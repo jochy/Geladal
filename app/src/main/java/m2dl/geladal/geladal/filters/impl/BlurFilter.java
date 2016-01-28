@@ -7,16 +7,17 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 
 import m2dl.geladal.geladal.R;
+import m2dl.geladal.geladal.filters.AbstractFilter;
 import m2dl.geladal.geladal.filters.IFilter;
 import m2dl.geladal.geladal.filters.IFilterConsumer;
 
 /**
  * Created by Nabil on 28/01/16.
  */
-public class BlurFilter implements IFilter {
+public class BlurFilter extends AbstractFilter {
 
     @Override
-    public void filter(IFilterConsumer activity, Bitmap original, float x, float y, float z) {
+    public void filterImpl(IFilterConsumer activity, Bitmap original, float x, float y, float z) {
         Bitmap bitmap = Bitmap.createBitmap(
                 original.getWidth(), original.getHeight(),
                 Bitmap.Config.ARGB_8888);

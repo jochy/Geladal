@@ -7,15 +7,16 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicConvolve3x3;
 
 import m2dl.geladal.geladal.R;
+import m2dl.geladal.geladal.filters.AbstractFilter;
 import m2dl.geladal.geladal.filters.IFilter;
 import m2dl.geladal.geladal.filters.IFilterConsumer;
 
 /**
  * Created by root on 28/01/16.
  */
-public class LightFilter implements IFilter {
+public class LightFilter extends AbstractFilter {
     @Override
-    public void filter(IFilterConsumer activity, Bitmap original, float x, float y, float z) {
+    public void filterImpl(IFilterConsumer activity, Bitmap original, float x, float y, float z) {
         x = (float) (x + 0.2);
         float[] coefficients = {-1*x, -1*x, -1*x, -1*x, 8, -1*x, -1*x, -1*x, -1*x};
 
