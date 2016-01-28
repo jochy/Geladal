@@ -42,4 +42,12 @@ public abstract class AbstractFilter implements IFilter {
 
     @Override
     public abstract String getName();
+
+    @Override
+    public void killThread() {
+        if(thread != null && thread.isAlive()){
+            thread.interrupt();
+            thread.stop();
+        }
+    }
 }

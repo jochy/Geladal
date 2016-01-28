@@ -13,4 +13,6 @@ public interface IFilter {
     int getIcon();
 
     String getName();
+
+    void killThread();
 }

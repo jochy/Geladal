@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 import m2dl.geladal.geladal.filters.impl.MozFilter;
 import m2dl.geladal.geladal.utils.ExifUtils;
 import m2dl.geladal.geladal.filters.IFilter;
@@ -203,5 +205,13 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
     public boolean onTouch(View v, MotionEvent event) {
 
         return false;
+    }
+
+    @Override
+    public void finish() {
+        for (IFilter f : filters) {
+            f.killThread();
+        }
+        super.finish();
     }
 }
