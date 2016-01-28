@@ -11,16 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
-import m2dl.geladal.geladal.utils.ExifUtils;
 import m2dl.geladal.geladal.services.MessageService;
 import m2dl.geladal.geladal.services.PhotoUtils;
+import m2dl.geladal.geladal.utils.ExifUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         //Intent intent = new Intent(this, DynamicFilterActivity.class);
         //startActivity(intent);
     }
@@ -76,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
                             .getBitmap(getContentResolver(), Uri.fromFile(photo));
                     // Rotate it
                     bitmap = ExifUtils.rotateBitmap(photo.getAbsolutePath(), bitmap);
-                    Toast.makeText(getApplicationContext(), "Original height :" + bitmap.getHeight() + " width:" + bitmap.getWidth(), Toast.LENGTH_LONG).show();
 
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
@@ -84,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
 
                     bitmap.recycle();
                     decoded = PhotoUtils.getResizedBitmap(decoded, decoded.getWidth() / 2);
-                    Toast.makeText(getApplicationContext(), "Decoded height :" + decoded.getHeight() + " width:" + decoded.getWidth(), Toast.LENGTH_LONG).show();
 
                     Intent intent = new Intent(this, DynamicFilterActivity.class);
                     MessageService.image = decoded;

@@ -29,7 +29,6 @@ import java.util.Random;
 import m2dl.geladal.geladal.filters.IFilter;
 import m2dl.geladal.geladal.filters.IFilterConsumer;
 import m2dl.geladal.geladal.filters.impl.BlackAndWhiteFilter;
-import m2dl.geladal.geladal.filters.impl.BlurFilter;
 import m2dl.geladal.geladal.filters.impl.ColorFilter;
 import m2dl.geladal.geladal.filters.impl.GridFilter;
 import m2dl.geladal.geladal.filters.impl.LightFilter;
@@ -80,7 +79,6 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
 
         // Register filter
         filters.add(new BlackAndWhiteFilter());
-        filters.add(new BlurFilter());
         filters.add(new GridFilter());
         filters.add(new ColorFilter());
         filters.add(new MozFilter());
@@ -163,7 +161,6 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
     public Context getContext() {
         return this.getBaseContext();
     }
-
 
     public void changePicture(View view) {
         // Création de l'intent de type ACTION_IMAGE_CAPTURE
