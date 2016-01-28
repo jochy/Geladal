@@ -13,15 +13,16 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import m2dl.geladal.geladal.filters.BlackAndWhiteFilter;
 import m2dl.geladal.geladal.filters.IFilter;
+import m2dl.geladal.geladal.filters.IFilterConsumer;
+import m2dl.geladal.geladal.filters.impl.BlackAndWhiteFilter;
 import m2dl.geladal.geladal.handlers.IMovementDetected;
 import m2dl.geladal.geladal.handlers.IShakeDetected;
 import m2dl.geladal.geladal.handlers.MovementDetectionListener;
 import m2dl.geladal.geladal.handlers.ShakeDetectionListener;
 import m2dl.geladal.geladal.services.MessageService;
 
-public class DynamicFilterActivity extends AppCompatActivity implements IShakeDetected, IMovementDetected {
+public class DynamicFilterActivity extends AppCompatActivity implements IShakeDetected, IMovementDetected, IFilterConsumer {
 
     private int shakes = 0;
     private ShakeDetectionListener shakeDetectionListener;
@@ -54,6 +55,8 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
 
         // Register filter
         filters.add(new BlackAndWhiteFilter());
+
+        filters.get(currentFilterPos).filter(this, resultImage, 0, 0, 0);
     }
 
     @Override
@@ -80,7 +83,6 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
 
     @Override
     public void shaked() {
-        Toast.makeText(getBaseContext(), "SHAKED " + shakes++, Toast.LENGTH_SHORT).show();
         currentFilterPos++;
         if (filters.size() > 0) {
             currentFilterPos = currentFilterPos % filters.size();
@@ -89,9 +91,19 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
 
     @Override
     public void moved(float x, float y, float z) {
-        Toast.makeText(getBaseContext(), "x: " + x + " | y: " + y + " | z: " + z, Toast.LENGTH_SHORT).show();
         if (filters.size() > 0) {
-            imageView.setImageBitmap(filters.get(currentFilterPos).filter(resultImage, x, y, z));
+            filters.get(currentFilterPos).filter(this, resultImage, x, y, z);
         }
+    }
+
+    @Override
+    public void setImageFiltered(final Bitmap bitmap) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                imageView.setImageBitmap(bitmap);
+                imageView.invalidate();
+            }
+        });
     }
 }
