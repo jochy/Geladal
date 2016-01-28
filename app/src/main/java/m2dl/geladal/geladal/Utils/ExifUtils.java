@@ -1,4 +1,4 @@
-package m2dl.geladal.geladal.Utils;
+package m2dl.geladal.geladal.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
