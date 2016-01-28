@@ -11,7 +11,7 @@ public class MovementDetectionListener implements SensorEventListener {
 
     private IMovementDetected activity;
     private long lastUpdate = System.currentTimeMillis();
-    private static final int INTERVAL_UPDATE = 100;
+    private static final int INTERVAL_UPDATE = 500;
 
     public MovementDetectionListener(IMovementDetected activity) {
         this.activity = activity;

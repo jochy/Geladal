@@ -13,6 +13,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import m2dl.geladal.geladal.filters.BlackAndWhiteFilter;
 import m2dl.geladal.geladal.filters.IFilter;
 import m2dl.geladal.geladal.handlers.IMovementDetected;
 import m2dl.geladal.geladal.handlers.IShakeDetected;
@@ -50,6 +51,9 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
         movementDetectionListener = new MovementDetectionListener(this);
         sensorMgr.registerListener(movementDetectionListener, sensorMgr
                 .getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR), SensorManager.SENSOR_DELAY_NORMAL);
+
+        // Register filter
+        filters.add(new BlackAndWhiteFilter());
     }
 
     @Override
@@ -87,7 +91,7 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
     public void moved(float x, float y, float z) {
         Toast.makeText(getBaseContext(), "x: " + x + " | y: " + y + " | z: " + z, Toast.LENGTH_SHORT).show();
         if (filters.size() > 0) {
-            filters.get(currentFilterPos).filter(resultImage, x, y, z);
+            imageView.setImageBitmap(filters.get(currentFilterPos).filter(resultImage, x, y, z));
         }
     }
 }
