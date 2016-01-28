@@ -190,9 +190,8 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
                     Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
-                    bitmap.recycle();
                     decoded = PhotoUtils.getResizedBitmap(decoded, decoded.getWidth());
-                    MessageService.image = decoded;
+                    resultImage = decoded;
                     imageView.setImageBitmap(decoded);
                     imageView.invalidate();
 

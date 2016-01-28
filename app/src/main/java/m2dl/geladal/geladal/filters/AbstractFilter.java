@@ -15,7 +15,9 @@ public abstract class AbstractFilter implements IFilter {
             thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    filterImpl(activity, original, x, y, z);
+                    try {
+                        filterImpl(activity, original, x, y, z);
+                    }catch (Exception e){}
                 }
             });
             thread.start();
