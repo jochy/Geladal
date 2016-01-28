@@ -31,6 +31,7 @@ import m2dl.geladal.geladal.filters.IFilterConsumer;
 import m2dl.geladal.geladal.filters.impl.BlackAndWhiteFilter;
 import m2dl.geladal.geladal.filters.impl.ColorFilter;
 import m2dl.geladal.geladal.filters.impl.GridFilter;
+import m2dl.geladal.geladal.filters.impl.InvertFilter;
 import m2dl.geladal.geladal.filters.impl.LightFilter;
 import m2dl.geladal.geladal.filters.impl.MozFilter;
 import m2dl.geladal.geladal.handlers.IMovementDetected;
@@ -83,6 +84,7 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
         filters.add(new ColorFilter());
         filters.add(new MozFilter());
         filters.add(new LightFilter());
+        filters.add(new InvertFilter());
         //moved(0, 0, 0);
     }
 
