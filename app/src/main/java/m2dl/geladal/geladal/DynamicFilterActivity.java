@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +17,7 @@ import java.util.List;
 import m2dl.geladal.geladal.filters.IFilter;
 import m2dl.geladal.geladal.filters.IFilterConsumer;
 import m2dl.geladal.geladal.filters.impl.BlackAndWhiteFilter;
+import m2dl.geladal.geladal.filters.impl.BlurFilter;
 import m2dl.geladal.geladal.handlers.IMovementDetected;
 import m2dl.geladal.geladal.handlers.IShakeDetected;
 import m2dl.geladal.geladal.handlers.MovementDetectionListener;
@@ -57,6 +57,7 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
 
         // Register filter
         filters.add(new BlackAndWhiteFilter());
+        filters.add(new BlurFilter());
         moved(0, 0, 0);
     }
 
