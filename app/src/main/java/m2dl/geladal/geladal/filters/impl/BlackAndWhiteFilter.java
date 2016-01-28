@@ -21,7 +21,7 @@ public class BlackAndWhiteFilter extends AbstractFilter {
         Paint paint = new Paint(Paint.DITHER_FLAG);
         ColorMatrix cm = new ColorMatrix();
 
-        float coef = Math.abs(x) + Math.abs(y) + Math.abs(z) * 5 - 1;
+        float coef = Math.abs(x) + Math.abs(y) + Math.abs(z) * 5 - 2;
         cm.setSaturation(coef);
 
         paint.setColorFilter(new ColorMatrixColorFilter(cm));
