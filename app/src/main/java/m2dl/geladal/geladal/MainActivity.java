@@ -2,6 +2,7 @@ package m2dl.geladal.geladal;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -10,7 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -53,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     public void takePicture(View view)
     {
         // Création de l'intent de type ACTION_IMAGE_CAPTURE
@@ -61,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
         photo = new File(Environment.getExternalStorageDirectory(), "Pic.jpg");
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-
     }
+
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -73,8 +76,17 @@ public class MainActivity extends AppCompatActivity {
                             .getBitmap(getContentResolver(), Uri.fromFile(photo));
                     // Rotate it
                     bitmap = ExifUtils.rotateBitmap(photo.getAbsolutePath(), bitmap);
+                    Toast.makeText(getApplicationContext(),"Original height :" + bitmap.getHeight() +" width:"+bitmap.getWidth(),Toast.LENGTH_LONG).show();
+
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
+                    Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
+
+                    decoded = getResizedBitmap(decoded,decoded.getWidth());
+                    Toast.makeText(getApplicationContext(),"Decoded height :" + decoded.getHeight() +" width:"+decoded.getWidth(),Toast.LENGTH_LONG).show();
+
                     Intent intent = new Intent(this, DynamicFilterActivity.class);
-                    MessageService.image = bitmap;
+                    MessageService.image = decoded;
                     startActivity(intent);
 
                 } catch (IOException e) {
@@ -83,6 +95,25 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+
+
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float) width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
+    }
+
+
+
 
 
 

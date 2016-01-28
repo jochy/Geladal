@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,7 @@ import java.util.List;
 import m2dl.geladal.geladal.filters.IFilter;
 import m2dl.geladal.geladal.filters.IFilterConsumer;
 import m2dl.geladal.geladal.filters.impl.BlackAndWhiteFilter;
+import m2dl.geladal.geladal.filters.impl.BlurFilter;
 import m2dl.geladal.geladal.handlers.IMovementDetected;
 import m2dl.geladal.geladal.handlers.IShakeDetected;
 import m2dl.geladal.geladal.handlers.MovementDetectionListener;
@@ -56,8 +57,8 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
 
         // Register filter
         filters.add(new BlackAndWhiteFilter());
-
-        filters.get(currentFilterPos).filter(this, resultImage, 0, 0, 0);
+        filters.add(new BlurFilter());
+        moved(0, 0, 0);
     }
 
     @Override
@@ -94,6 +95,8 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
     public void moved(float x, float y, float z) {
         if (filters.size() > 0) {
             filters.get(currentFilterPos).filter(this, resultImage, x, y, z);
+            ((ImageView) findViewById(R.id.imgFilter)).setImageResource(filters.get(currentFilterPos).getIcon());
+            ((TextView) findViewById(R.id.tvFilter)).setText(filters.get(currentFilterPos).getName());
         }
     }
 
