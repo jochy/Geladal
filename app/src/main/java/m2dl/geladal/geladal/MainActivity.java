@@ -24,7 +24,7 @@ import m2dl.geladal.geladal.services.PhotoUtils;
 
 public class MainActivity extends AppCompatActivity {
 
-    File photo ;
+    File photo;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
     @Override
@@ -58,8 +58,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void takePicture(View view)
-    {
+    public void takePicture(View view) {
         // Création de l'intent de type ACTION_IMAGE_CAPTURE
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         photo = new File(Environment.getExternalStorageDirectory(), "Pic.jpg");
@@ -76,14 +75,15 @@ public class MainActivity extends AppCompatActivity {
                             .getBitmap(getContentResolver(), Uri.fromFile(photo));
                     // Rotate it
                     bitmap = ExifUtils.rotateBitmap(photo.getAbsolutePath(), bitmap);
-                    Toast.makeText(getApplicationContext(),"Original height :" + bitmap.getHeight() +" width:"+bitmap.getWidth(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Original height :" + bitmap.getHeight() + " width:" + bitmap.getWidth(), Toast.LENGTH_LONG).show();
 
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
                     Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
 
-                    decoded = PhotoUtils.getResizedBitmap(decoded,decoded.getWidth());
-                    Toast.makeText(getApplicationContext(),"Decoded height :" + decoded.getHeight() +" width:"+decoded.getWidth(),Toast.LENGTH_LONG).show();
+                    bitmap.recycle();
+                    decoded = PhotoUtils.getResizedBitmap(decoded, decoded.getWidth() / 2);
+                    Toast.makeText(getApplicationContext(), "Decoded height :" + decoded.getHeight() + " width:" + decoded.getWidth(), Toast.LENGTH_LONG).show();
 
                     Intent intent = new Intent(this, DynamicFilterActivity.class);
                     MessageService.image = decoded;
@@ -95,14 +95,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
-
-
-
-
-
-
-
-
 
 
 }

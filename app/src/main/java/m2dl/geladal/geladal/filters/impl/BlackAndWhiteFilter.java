@@ -16,7 +16,7 @@ import m2dl.geladal.geladal.filters.IFilterConsumer;
 public class BlackAndWhiteFilter extends AbstractFilter {
     @Override
     public void filterImpl(IFilterConsumer activity, Bitmap original, float x, float y, float z) {
-        Bitmap result = original.copy(original.getConfig(), true);
+        Bitmap result =  Bitmap.createBitmap(original.getWidth(), original.getHeight(), original.getConfig()); //original.copy(original.getConfig(), true);
         Canvas canvas = new Canvas(result);
         Paint paint = new Paint(Paint.DITHER_FLAG);
         ColorMatrix cm = new ColorMatrix();

@@ -17,7 +17,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,7 +24,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import m2dl.geladal.geladal.filters.impl.MozFilter;
 import m2dl.geladal.geladal.utils.ExifUtils;
 import m2dl.geladal.geladal.filters.IFilter;
@@ -50,10 +48,11 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
     private List<IFilter> filters = new ArrayList<>();
     private int currentFilterPos = 0;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    SensorManager sensorMgr;
 
     Bitmap resultImage;
     ImageView imageView;
-    File photo ;
+    File photo;
 
 
     @Override
@@ -68,14 +67,14 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
 
         // Shake detection
         shakeDetectionListener = new ShakeDetectionListener(this);
-        SensorManager sensorMgr = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensorMgr = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensorMgr.registerListener(shakeDetectionListener, sensorMgr
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
 
         // Gyroscope detection
         movementDetectionListener = new MovementDetectionListener(this);
         sensorMgr.registerListener(movementDetectionListener, sensorMgr
-                .getDefaultSensor(Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR), SensorManager.SENSOR_DELAY_NORMAL);
+                .getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR), SensorManager.SENSOR_DELAY_NORMAL);
 
         // Register filter
         filters.add(new BlackAndWhiteFilter());
@@ -84,7 +83,7 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
         filters.add(new ColorFilter());
         filters.add(new MozFilter());
         filters.add(new LightFilter());
-        moved(0, 0, 0);
+        //moved(0, 0, 0);
     }
 
     @Override
@@ -107,6 +106,26 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorMgr.unregisterListener(shakeDetectionListener);
+        sensorMgr.unregisterListener(movementDetectionListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Shake detection
+        sensorMgr = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensorMgr.registerListener(shakeDetectionListener, sensorMgr
+                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+
+        // Gyroscope detection
+        sensorMgr.registerListener(movementDetectionListener, sensorMgr
+                .getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR), SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -133,6 +152,7 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
             public void run() {
                 imageView.setImageBitmap(bitmap);
                 imageView.invalidate();
+                imageView.buildDrawingCache();
             }
         });
     }
@@ -143,15 +163,14 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
     }
 
 
-    public void changePicture(View view)
-    {
+    public void changePicture(View view) {
         // Création de l'intent de type ACTION_IMAGE_CAPTURE
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         Random r = new Random();
         int low = 10;
         int high = 100000;
-        int result = r.nextInt(high-low)+low;
-        photo = new File(Environment.getExternalStorageDirectory(), "Pic"+result+".jpg");
+        int result = r.nextInt(high - low) + low;
+        photo = new File(Environment.getExternalStorageDirectory(), "Pic" + result + ".jpg");
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
