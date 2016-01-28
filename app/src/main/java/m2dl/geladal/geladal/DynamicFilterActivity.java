@@ -9,11 +9,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import m2dl.geladal.geladal.handlers.IMovementDetected;
 import m2dl.geladal.geladal.handlers.IShakeDetected;
 import m2dl.geladal.geladal.handlers.ShakeDetectionListener;
 import m2dl.geladal.geladal.services.MessageService;
 
-public class DynamicFilterActivity extends AppCompatActivity implements IShakeDetected {
+public class DynamicFilterActivity extends AppCompatActivity implements IShakeDetected, IMovementDetected {
+
+    int shakes = 0;
+    ShakeDetectionListener shakeDetectionListener;
 
     Bitmap resultImage ;
 
@@ -23,8 +27,14 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
         setContentView(R.layout.activity_dynamic_filter);
         resultImage = MessageService.image;
 
+        // Shake detection
+        shakeDetectionListener = new ShakeDetectionListener(this);
         SensorManager sensorMgr = (SensorManager) getSystemService(SENSOR_SERVICE);
-        sensorMgr.registerListener(new ShakeDetectionListener(this), sensorMgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
+        sensorMgr.registerListener(shakeDetectionListener, sensorMgr
+                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
+
+        // Gyroscope detection
+
     }
 
     @Override
@@ -51,6 +61,11 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
 
     @Override
     public void shaked() {
-        Toast.makeText(getBaseContext(), "SHAKED", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(), "SHAKED " + shakes++, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void moved(float x, float y, float z) {
+        Toast.makeText(getBaseContext(), "Moved", Toast.LENGTH_SHORT).show();
     }
 }
