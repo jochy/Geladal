@@ -9,8 +9,8 @@ import android.hardware.SensorEventListener;
  */
 public class ShakeDetectionListener implements SensorEventListener {
 
-    private static final float SHAKE_THRESHOLD = 2950;
-    private static final float INTERVAL_UPDATE = 100;
+    private static final float SHAKE_THRESHOLD = 1000;
+    private static final float INTERVAL_UPDATE = 70;
 
     private IShakeDetected activity;
 
@@ -21,6 +21,8 @@ public class ShakeDetectionListener implements SensorEventListener {
     private float last_y = 0;
     private float last_z = 0;
     private long lastUpdate = System.currentTimeMillis();
+    private final Object lock = new Object();
+    private long lastShake = System.currentTimeMillis();
 
     public ShakeDetectionListener(IShakeDetected activity) {
         this.activity = activity;
@@ -45,8 +47,16 @@ public class ShakeDetectionListener implements SensorEventListener {
             last_z = z;
 
             if (speed > SHAKE_THRESHOLD) {
-                activity.shaked();
-                lastUpdate += 2000;
+                synchronized (lock){
+                    curTime = System.currentTimeMillis();
+                    if(curTime - lastShake > 1000){
+                        lastShake = curTime;
+                    }
+                }
+
+                if(curTime == lastShake){
+                    activity.shaked();
+                }
             }
         }
     }

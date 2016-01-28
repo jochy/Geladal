@@ -10,17 +10,25 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import m2dl.geladal.geladal.filters.IFilter;
 import m2dl.geladal.geladal.handlers.IMovementDetected;
 import m2dl.geladal.geladal.handlers.IShakeDetected;
+import m2dl.geladal.geladal.handlers.MovementDetectionListener;
 import m2dl.geladal.geladal.handlers.ShakeDetectionListener;
 import m2dl.geladal.geladal.services.MessageService;
 
 public class DynamicFilterActivity extends AppCompatActivity implements IShakeDetected, IMovementDetected {
 
-    int shakes = 0;
-    ShakeDetectionListener shakeDetectionListener;
+    private int shakes = 0;
+    private ShakeDetectionListener shakeDetectionListener;
+    private MovementDetectionListener movementDetectionListener;
+    private List<IFilter> filters = new ArrayList<>();
+    private int currentFilterPos = 0;
 
-    Bitmap resultImage ;
+    Bitmap resultImage;
     ImageView imageView;
 
     @Override
@@ -29,17 +37,19 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
         setContentView(R.layout.activity_dynamic_filter);
         resultImage = MessageService.image;
 
-        imageView = (ImageView)findViewById(R.id.basicImage);
+        imageView = (ImageView) findViewById(R.id.basicImage);
         imageView.setImageBitmap(resultImage);
 
         // Shake detection
         shakeDetectionListener = new ShakeDetectionListener(this);
         SensorManager sensorMgr = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensorMgr.registerListener(shakeDetectionListener, sensorMgr
-                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
+                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
 
         // Gyroscope detection
-
+        movementDetectionListener = new MovementDetectionListener(this);
+        sensorMgr.registerListener(movementDetectionListener, sensorMgr
+                .getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR), SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -67,10 +77,17 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
     @Override
     public void shaked() {
         Toast.makeText(getBaseContext(), "SHAKED " + shakes++, Toast.LENGTH_SHORT).show();
+        currentFilterPos++;
+        if (filters.size() > 0) {
+            currentFilterPos = currentFilterPos % filters.size();
+        }
     }
 
     @Override
     public void moved(float x, float y, float z) {
-        Toast.makeText(getBaseContext(), "Moved", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(), "x: " + x + " | y: " + y + " | z: " + z, Toast.LENGTH_SHORT).show();
+        if (filters.size() > 0) {
+            filters.get(currentFilterPos).filter(resultImage, x, y, z);
+        }
     }
 }
