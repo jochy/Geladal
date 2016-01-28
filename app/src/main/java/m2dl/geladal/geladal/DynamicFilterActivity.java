@@ -1,26 +1,31 @@
 package m2dl.geladal.geladal;
 
-import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import m2dl.geladal.geladal.handlers.IShakeDetected;
+import m2dl.geladal.geladal.handlers.ShakeDetectionListener;
+
+public class DynamicFilterActivity extends AppCompatActivity implements IShakeDetected {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_dynamic_filter);
 
-        Intent intent = new Intent(this, DynamicFilterActivity.class);
-        startActivity(intent);
+        SensorManager sensorMgr = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensorMgr.registerListener(new ShakeDetectionListener(this), sensorMgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_dynamic_filter, menu);
         return true;
     }
 
@@ -37,5 +42,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void shaked() {
+        Toast.makeText(getBaseContext(), "SHAKED", Toast.LENGTH_SHORT).show();
     }
 }
