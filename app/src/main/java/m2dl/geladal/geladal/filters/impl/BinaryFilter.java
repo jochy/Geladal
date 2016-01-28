@@ -30,7 +30,7 @@ public class BinaryFilter extends AbstractFilter {
 
     @Override
     public int getIcon() {
-        return R.drawable.inverted;
+        return R.drawable.binary;
     }
 
     @Override
