@@ -42,19 +42,15 @@ import m2dl.geladal.geladal.services.PhotoUtils;
 import m2dl.geladal.geladal.utils.ExifUtils;
 
 public class DynamicFilterActivity extends AppCompatActivity implements IShakeDetected, IMovementDetected, IFilterConsumer, View.OnTouchListener {
-
-    private int shakes = 0;
     private ShakeDetectionListener shakeDetectionListener;
     private MovementDetectionListener movementDetectionListener;
     private List<IFilter> filters = new ArrayList<>();
     private int currentFilterPos = 0;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     SensorManager sensorMgr;
-
     Bitmap resultImage;
     ImageView imageView;
     File photo;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +79,6 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
         filters.add(new ColorFilter());
         filters.add(new MozFilter());
         filters.add(new LightFilter());
-        //moved(0, 0, 0);
     }
 
     @Override
