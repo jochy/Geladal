@@ -7,4 +7,6 @@ import android.graphics.Bitmap;
  */
 public interface IFilter {
     Bitmap filter(Bitmap original, float x, float y, float z);
+    Bitmap getIcon();
+    String getName();
 }

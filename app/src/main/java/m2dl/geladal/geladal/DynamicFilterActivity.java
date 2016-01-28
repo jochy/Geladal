@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import m2dl.geladal.geladal.handlers.IMovementDetected;
@@ -20,12 +21,16 @@ public class DynamicFilterActivity extends AppCompatActivity implements IShakeDe
     ShakeDetectionListener shakeDetectionListener;
 
     Bitmap resultImage ;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dynamic_filter);
         resultImage = MessageService.image;
+
+        imageView = (ImageView)findViewById(R.id.basicImage);
+        imageView.setImageBitmap(resultImage);
 
         // Shake detection
         shakeDetectionListener = new ShakeDetectionListener(this);
